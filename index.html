@@ -711,6 +711,13 @@
             .bg-decoration {
             display: none;
             }
+        /* NAV TOP: LOGO + HAMBURGER */
+.nav-top {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
         /* HAMBURGER MENU */
 .menu-toggle {
     display: none;
@@ -770,19 +777,29 @@ function toggleMenu() {
 
     <header>
         <div class="container navbar">
-            <a href="#" class="logo"><i class="fas fa-leaf"></i> TRƯỜNG HỌC XANH</a>
+        <div class="nav-top">
+            <a href="#" class="logo">
+                <i class="fas fa-leaf"></i> TRƯỜNG HỌC XANH
+            </a>
             <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-            <nav class="nav-links">
-                <a href="#">Trang chủ</a>
-                <a href="#about">Ý nghĩa</a>
-                <a href="#activities">Hoạt động</a>
-                <a href="#contact">Đăng ký</a>
-            </nav>
-            <div class="search-wrapper">
-                <input type="text" class="search-box" id="searchInput" placeholder="Tìm kiếm hoạt động..." autocomplete="off">
-                <div class="search-suggestions" id="searchSuggestions"></div>
-            </div>
         </div>
+
+        <!-- MENU -->
+        <nav class="nav-links">
+            <a href="#">Trang chủ</a>
+            <a href="#about">Ý nghĩa</a>
+            <a href="#activities">Hoạt động</a>
+            <a href="#contact">Đăng ký</a>
+        </nav>
+
+        <!-- SEARCH -->
+        <div class="search-wrapper">
+            <input type="text" class="search-box" id="searchInput"
+                   placeholder="Tìm kiếm hoạt động..." autocomplete="off">
+            <div class="search-suggestions" id="searchSuggestions"></div>
+        </div>
+
+    </div>
     </header>
 
     <section class="hero">
@@ -1188,5 +1205,6 @@ function toggleMenu() {
 </body>
 
 </html>
+
 
 
