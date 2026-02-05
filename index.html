@@ -43,7 +43,7 @@
             position: relative;
         }
 
-      /* Hiệu ứng nền texture mờ */
+        /* Hiệu ứng nền texture mờ */
         body::before {
             content: "";
             position: fixed;
@@ -629,15 +629,38 @@
 
         /* Mobile */
         @media (max-width: 768px) {
-            .navbar {
-                height: auto;
-                padding: 15px 0;
-            }
-
-            .nav-links,
-            .search-wrapper {
-                display: none;
-            }
+        .navbar {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 15px;
+        gap: 10px;
+        }
+        
+        .nav-links {
+        display: flex;
+        flex-direction: row;
+        gap: 12px;
+        white-space: nowrap;
+        }
+        
+        .nav-links a {
+        font-size: 14px;
+        padding: 6px 8px;
+        }
+        
+        .search-wrapper {
+        display: flex;
+        align-items: center;
+        }
+        
+        .search-wrapper input {
+        width: 120px;
+        font-size: 13px;
+        padding: 5px 8px;
+        }
+        }
 
             .stats-bar {
                 flex-direction: column;
@@ -663,7 +686,7 @@
 
             /* Ẩn ảnh nhỏ trên mobile cho gọn */
             .bg-decoration {
-                display: none;
+            display: none;
             }
         }
     </style>
@@ -1093,7 +1116,7 @@
         window.onscroll = function() { scrollBtn.style.display = (document.body.scrollTop > 300 ||
         document.documentElement.scrollTop > 300) ? "flex" : "none"; };
         function scrollToTop() { document.documentElement.scrollTop = 0; }
-        </script>
-        </body>
-        
-        </html>
+    </script>
+</body>
+
+</html>
