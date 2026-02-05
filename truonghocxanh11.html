@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trường Học Xanh</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&family=Merriweather:ital,wght@1,300&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* --- 1. CẤU HÌNH GIAO DIỆN --- */
+        :root {
+            --primary: #27ae60;
+            --primary-dark: #219150;
+            --accent: #f39c12;
+            --text-dark: #2c3e50;
+            --text-light: #555;
+            --bg-light: #f4fcf6;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Roboto', sans-serif;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-light);
+            color: var(--text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            /* Ẩn thanh cuộn ngang do hình trang trí */
+            position: relative;
+        }
+
+      /* Hiệu ứng nền texture mờ */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/leaf.png');
+            opacity: 0.4;
+            z-index: -2;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: 0.3s;
+        }
+
+        img {
+            width: 100%;
+            display: block;
+        }
+
+        .btn {
+            padding: 12px 30px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .btn:hover {
+            background: var(--primary-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .section-title {
+            text-align: center;
+            margin: 70px 0 40px;
+        }
+
+        .section-title span {
+            color: var(--primary);
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-size: 0.9rem;
+        }
+
+        .section-title h2 {
+            font-size: 2.2rem;
+            margin-top: 10px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .section-title h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 4px;
+            background: var(--accent);
+            margin: 15px auto 0;
+            border-radius: 2px;
+        }
+
+        /* --- HEADER --- */
+        header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.05);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            height: 80px;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        /* Search */
+        .search-wrapper {
+            position: relative;
+            width: 280px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 10px 20px;
+            border: 2px solid #eee;
+            border-radius: 25px;
+            outline: none;
+            transition: 0.3s;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 10px rgba(39, 174, 96, 0.1);
+        }
+
+        .search-suggestions {
+            position: absolute;
+            top: 50px;
+            left: 0;
+            width: 100%;
+            background: var(--white);
+            box-shadow: var(--shadow);
+            border-radius: 10px;
+            display: none;
+            overflow: hidden;
+            z-index: 1001;
+        }
+
+        .search-suggestions.active {
+            display: block;
+        }
+
+        .suggestion-item {
+            padding: 12px 15px;
+            cursor: pointer;
+            border-bottom: 1px solid #f1f1f1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: 0.2s;
+        }
+
+        .suggestion-item:hover {
+            background: #f0fdf4;
+        }
+
+        .suggestion-item img {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.3)), url('https://images.unsplash.com/photo-1588072432836-e10032774350?auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+            line-height: 1.2;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* --- STATS --- */
+        .stats-bar {
+            background: var(--white);
+            padding: 40px 0;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            margin-top: -50px;
+            position: relative;
+            z-index: 10;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-around;
+            max-width: 1000px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: block;
+        }
+
+        .stat-label {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* --- GIỚI THIỆU (NÂNG CẤP) --- */
+        .intro-section {
+            padding: 90px 0;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 20px;
+            margin-top: 40px;
+        }
+
+        .intro-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .intro-text h3 {
+            font-size: 2rem;
+            margin-bottom: 25px;
+            color: var(--primary-dark);
+        }
+
+        .intro-text p {
+            margin-bottom: 20px;
+            color: var(--text-dark);
+            text-align: justify;
+            font-size: 1.05rem;
+        }
+
+        .intro-img-group {
+            position: relative;
+        }
+
+        .intro-main-img {
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            width: 100%;
+            height: 400px;
+            object-fit: cover;
+        }
+
+        /* Ảnh nhỏ chồng lên */
+        .intro-sub-img {
+            position: absolute;
+            bottom: -30px;
+            left: -30px;
+            width: 200px;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 15px;
+            border: 5px solid white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* --- DANH SÁCH HOẠT ĐỘNG --- */
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: 0.3s;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .card img {
+            height: 220px;
+            object-fit: cover;
+        }
+
+        .card-body {
+            padding: 25px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .card-desc {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        /* Footer Card (Like/Dislike) */
+        .card-footer {
+            border-top: 1px solid #eee;
+            padding: 15px 25px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #fafafa;
+        }
+
+        .interaction-group {
+            display: flex;
+            gap: 15px;
+        }
+
+        .interact-btn {
+            cursor: pointer;
+            color: #999;
+            transition: 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.9rem;
+            user-select: none;
+        }
+
+        .interact-btn:hover {
+            color: var(--text-dark);
+        }
+
+        /* Active States for Like/Dislike */
+        .interact-btn.active-like {
+            color: #2980b9;
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+
+        .interact-btn.active-dislike {
+            color: #c0392b;
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+
+        .view-count {
+            color: #666;
+            font-size: 0.85rem;
+        }
+
+        /* --- FORM ĐĂNG KÝ --- */
+        .contact-section {
+            padding: 80px 0;
+            background: linear-gradient(135deg, #e0f2f1 0%, #a5d6a7 100%);
+            margin-top: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-container {
+            display: flex;
+            background: var(--white);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            max-width: 1000px;
+            margin: 0 auto;
+            z-index: 2;
+            position: relative;
+        }
+
+        .contact-info {
+            width: 40%;
+            background: var(--primary);
+            padding: 40px;
+            color: var(--white);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .contact-form-box {
+            width: 60%;
+            padding: 40px;
+        }
+
+        .live-counter {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .live-counter h4 {
+            font-size: 2.5rem;
+            margin: 5px 0;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            font-size: 0.9rem;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            outline: none;
+            transition: 0.3s;
+            background: #f9f9f9;
+        }
+
+        /* --- FOOTER & MODAL --- */
+        footer {
+            background: var(--text-dark);
+            color: #bdc3c7;
+            padding: 60px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 40px;
+        }
+
+        .social-icons a {
+            font-size: 1.5rem;
+            margin-right: 15px;
+            transition: 0.3s;
+        }
+
+        .social-icons a:hover {
+            color: var(--primary);
+        }
+
+        #scrollTopBtn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 99;
+            width: 50px;
+            height: 50px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 2000;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .modal-overlay.open {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background: white;
+            width: 90%;
+            max-width: 800px;
+            max-height: 90vh;
+            border-radius: 15px;
+            overflow-y: auto;
+            position: relative;
+            animation: slideUp 0.4s;
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+            }
+
+            to {
+                transform: translateY(0);
+            }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-weight: bold;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-body {
+            padding: 40px;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .navbar {
+                height: auto;
+                padding: 15px 0;
+            }
+
+            .nav-links,
+            .search-wrapper {
+                display: none;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+                gap: 20px;
+            }
+
+            .intro-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .contact-container {
+                flex-direction: column;
+            }
+
+            .contact-info,
+            .contact-form-box {
+                width: 100%;
+            }
+
+            .intro-sub-img {
+                display: none;
+            }
+
+            /* Ẩn ảnh nhỏ trên mobile cho gọn */
+            .bg-decoration {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <img src="https://www.freeiconspng.com/thumbs/leaves-png/green-leaves-png-7.png" class="bg-decoration leaf-top-left" alt="">
+    <img src="https://www.freeiconspng.com/thumbs/leaves-png/leaves-png-26.png" class="bg-decoration leaf-top-right" alt="">
+    <img src="https://www.freeiconspng.com/thumbs/palm-leaf-png/palm-leaf-png-19.png" class="bg-decoration leaf-bottom-left" alt="">
+    <img src="https://www.freeiconspng.com/thumbs/leaves-png/green-leaves-png-7.png" class="bg-decoration leaf-mid-right" alt="">
+
+    <button id="scrollTopBtn" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+
+    <header>
+        <div class="container navbar">
+            <a href="#" class="logo"><i class="fas fa-leaf"></i> TRƯỜNG HỌC XANH</a>
+            <nav class="nav-links">
+                <a href="#">Trang chủ</a>
+                <a href="#about">Ý nghĩa</a>
+                <a href="#activities">Hoạt động</a>
+                <a href="#contact">Đăng ký</a>
+            </nav>
+            <div class="search-wrapper">
+                <input type="text" class="search-box" id="searchInput" placeholder="Tìm kiếm hoạt động..." autocomplete="off">
+                <div class="search-suggestions" id="searchSuggestions"></div>
+            </div>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container hero-content">
+            <h1>CHUNG TAY VÌ MỘT<br>TRƯỜNG HỌC XANH</h1>
+            <p>Nơi ươm mầm tri thức và nuôi dưỡng tình yêu với thiên nhiên.</p>
+            <p>Hành động nhỏ của bạn hôm nay là tương lai của Trái Đất ngày mai.</p>
+            <button class="btn" onclick="document.getElementById('about').scrollIntoView()">Tìm Hiểu Ngay</button>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="stats-bar">
+            <div class="stat-item"><span class="stat-number">1,200+</span><span class="stat-label">Cây xanh</span></div>
+            <div class="stat-item"><span class="stat-number">50+</span><span class="stat-label">Dự án tái chế</span>
+            </div>
+            <div class="stat-item"><span class="stat-number">3,000</span><span class="stat-label">Học sinh</span></div>
+            <div class="stat-item"><span class="stat-number">100%</span><span class="stat-label">Sạch</span></div>
+        </div>
+    </div>
+
+    <section id="about" class="intro-section">
+        <div class="container">
+            <div class="intro-grid">
+                <div class="intro-text">
+                    <span>Về chúng tôi</span>
+                    <h3>Sứ Mệnh Của Trường Học Xanh</h3>
+                    <p>Trường Học Xanh không chỉ dừng lại ở khái niệm trồng nhiều cây xanh trong khuôn viên. Đó là một
+                        triết lý giáo dục toàn diện, hướng tới việc xây dựng một hệ sinh thái học đường bền vững. Tại
+                        đây, chúng tôi tin rằng giáo dục phải gắn liền với trách nhiệm bảo vệ hành tinh mẹ.</p>
+                    <p>Trong thời đại biến đổi khí hậu đang diễn ra mạnh mẽ, việc giáo dục thế hệ trẻ biết trân trọng
+                        tài nguyên, yêu thiên nhiên và sống xanh là vô cùng cấp thiết. Mô hình "Trường Học Xanh" tạo ra
+                        môi trường để các em học sinh không chỉ học qua sách vở mà còn học qua trải nghiệm thực tế: tự
+                        tay phân loại rác, tái chế vật liệu, và chăm sóc từng mầm cây.</p>
+                    <p><strong>Giá trị cốt lõi:</strong> Chúng tôi đào tạo ra những công dân toàn cầu có trí tuệ, có
+                        lòng trắc ẩn và có ý thức sâu sắc về môi trường. Mỗi hành động nhỏ của các em hôm nay sẽ góp
+                        phần dệt nên một tương lai xanh tươi cho ngày mai.</p>
+                </div>
+                <div class="intro-img-group">
+                    <img src="https://img.freepik.com/fotos-premium/ninos-sentados-pilas-libros-leyendo-ninos-ninas-aprendiendo-o-estudiandoninos-educacion-concepto-regreso-escuelaalunos-libros-texto-escuela-modelo-icono-globo-terrestre_972324-43374.jpg?w=2000" class="intro-main-img">
+                    <img src="https://static.vecteezy.com/system/resources/previews/001/227/510/large_2x/small-tree-growing-with-sunshine-in-garden-free-photo.jpg" alt="Học sinh hoạt động" class="intro-sub-img">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="activities" class="container">
+        <div class="section-title">
+            <span>Dự án tiêu biểu</span>
+            <h2>Hoạt Động Nổi Bật</h2>
+        </div>
+        <div class="news-grid" id="activitiesGrid"></div>
+    </section>
+
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Đăng Ký Tham Gia</h2>
+            </div>
+            <div class="contact-container">
+                <div class="contact-info">
+                    <div>
+                        <h3>Tham Gia Cùng Chúng Tôi</h3>
+                        <p style="margin-top:10px; opacity: 0.9;">Hành trình vạn dặm bắt đầu từ một bước chân.</p>
+                    </div>
+                    <div class="live-counter">
+                        <span>Tổng số người đăng ký:</span>
+                        <h4 id="registrantCount">Loading...</h4>
+                        <small>Người đang đồng hành</small>
+                    </div>
+                    <div><i class="fas fa-quote-left"></i> "Giữ gìn thiên nhiên là bài học đạo đức dài nhất đời người."
+                    </div>
+                </div>
+                <div class="contact-form-box">
+                    <form id="contactForm" onsubmit="submitForm(event)">
+                        <div class="form-row">
+                            <div class="form-group"><label>Họ và Tên</label><input type="text" required></div>
+                            <div class="form-group"><label>SĐT</label><input type="tel" required></div>
+                        </div>
+                        <div class="form-group"><label>Email</label><input type="email" required></div>
+                        <div class="form-group"><label>Ghi chú</label><textarea rows="3"></textarea></div>
+                        <button type="submit" class="btn" style="width: 100%">Gửi Đăng Ký</button>
+                    </form>
+                    <div id="successMsg" style="display:none; text-align:center; padding-top:20px;">
+                        <i class="fas fa-check-circle" style="font-size:3rem; color:var(--primary);"></i>
+                        <h3 style="color:var(--primary); margin:10px 0;">ĐĂNG KÝ THÀNH CÔNG!</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div>
+                    <h3>Trường Học Xanh</h3>
+                    <p>Vì một hành tinh xanh.</p>
+                    <div class="social-icons" style="margin-top:20px;">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div>
+                    <h3>Liên kết</h3>
+                    <ul style="list-style:none;">
+                        <li><a href="#about">Giới thiệu</a></li>
+                        <li><a href="#activities">Hoạt động</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div style="text-align:center; border-top:1px solid #444; padding-top:20px; margin-top:30px;">
+                <p>&copy; 2024 Green School Project.</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="modal-overlay" id="activityModal" onclick="closeModal(event)">
+        <div class="modal-content">
+            <div class="close-modal" onclick="closeModalDirect()"><i class="fas fa-times"></i></div>
+            <img src="" alt="" id="modalImg" style="width:100%; height:350px; object-fit:cover;">
+            <div class="modal-body">
+                <h2 id="modalTitle">Tiêu đề</h2>
+                <div style="color:#777; margin-bottom:20px; font-size:0.9rem;">
+                    <i class="far fa-calendar-alt"></i> <span id="modalDate"></span> |
+                    <i class="fas fa-eye"></i> <span id="modalViews"></span> lượt xem
+                </div>
+                <div id="modalDesc" style="font-size:1.1rem; line-height:1.8; text-align:justify;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ----------------------------------------------------
+        // 1. QUẢN LÝ DỮ LIỆU (LOCAL STORAGE)
+        // ----------------------------------------------------
+        const defaultActivities = [
+        {
+        id: 1,
+        title: "Ngày Hội Trồng Cây",
+        img: "https://images.unsplash.com/photo-1542601906990-b4d3fb778b09?auto=format&fit=crop&w=600&q=60",
+        short: "Hơn 500 cây xanh đã được trồng mới, phủ xanh khuôn viên.",
+        date: "02/10/2023",
+        views: 1240, likes: 345, dislikes: 2,
+        full: `
+        <p>Ngày hội trồng cây là hoạt động ý nghĩa được nhà trường tổ chức nhằm nâng cao ý thức bảo vệ môi trường và xây dựng
+            không gian học đường xanh – sạch – đẹp. Chương trình thu hút sự tham gia của đông đảo học sinh, giáo viên và cán bộ
+            nhà trường trong không khí sôi nổi, hào hứng.</p>
+        <p>Trong khuôn khổ ngày hội, các lớp được chia thành từng nhóm để trồng và chăm sóc cây xanh trong khuôn viên trường.
+            Bên cạnh hoạt động trồng cây, học sinh còn được hướng dẫn về cách bảo vệ cây, giữ gìn môi trường sống và vai trò của
+            cây xanh đối với con người cũng như hệ sinh thái.</p>
+        <p>Ngày hội trồng cây không chỉ góp phần làm đẹp cảnh quan nhà trường mà còn giúp học sinh hình thành ý thức sống xanh,
+            tinh thần trách nhiệm và tình yêu thiên nhiên. Mỗi cây xanh được trồng hôm nay chính là một mầm sống cho tương lai,
+            lan tỏa thông điệp bảo vệ môi trường đến toàn thể cộng đồng học đường.</p>
+        `
+        },
+        {
+        id: 2,
+        title: "Cuộc Thi Tái Chế Nhựa",
+        img: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?auto=format&fit=crop&w=600&q=60",
+        short: "Biến rác thải nhựa thành nghệ thuật và vật dụng hữu ích.",
+        date: "15/10/2023",
+        views: 985, likes: 512, dislikes: 5,
+        full: `
+        <p>Cuộc thi tái chế nhựa là hoạt động thiết thực nhằm nâng cao nhận thức của học sinh về tác hại của rác thải nhựa đối
+            với môi trường, đồng thời khuyến khích tinh thần sáng tạo và ý thức bảo vệ Trái Đất. Cuộc thi thu hút sự tham gia
+            sôi nổi của các lớp với nhiều ý tưởng độc đáo, ý nghĩa.</p>
+        <p>Trong quá trình tham gia, học sinh sử dụng các vật liệu nhựa đã qua sử dụng như chai nhựa, ống hút, hộp nhựa… để tạo
+            ra những sản phẩm mới phục vụ học tập, sinh hoạt hoặc trang trí. Thông qua hoạt động này, các em được rèn luyện kỹ
+            năng làm việc nhóm, tư duy sáng tạo và hiểu rõ hơn giá trị của việc tái chế, tái sử dụng rác thải.</p>
+        <p>Cuộc thi không chỉ góp phần giảm thiểu rác thải nhựa trong trường học mà còn lan tỏa thông điệp “Nói không với nhựa
+            dùng một lần”, xây dựng thói quen sống xanh và có trách nhiệm với môi trường trong cộng đồng học đường.</p>
+        `
+        },
+        {
+        id: 3,
+        title: "Lớp Học Không Tường Ngăn",
+        img: "https://st.depositphotos.com/1158045/4102/i/950/depositphotos_41020451-stock-photo-students-studying-outdoor.jpg",
+        short: "Rời xa bảng đen phấn trắng để hòa mình vào thiên nhiên.",
+        date: "20/10/2023",
+        views: 1560, likes: 800, dislikes: 1,
+        full: `
+        <p>Lớp học không tường ngăn là mô hình học tập sáng tạo, nơi không gian học tập được mở rộng và kết nối trực tiếp với
+            thiên nhiên, giúp học sinh cảm nhận sự thoáng đãng, tự do và gần gũi với môi trường xung quanh.</p>
+        <p>Trong mô hình này, các tiết học được tổ chức ngoài trời hoặc trong không gian mở, tận dụng ánh sáng tự nhiên, gió
+            trời và cây xanh để tạo cảm hứng học tập. Học sinh không chỉ tiếp thu kiến thức qua sách vở mà còn học thông qua
+            quan sát và trải nghiệm thực tế.</p>
+        <p>Lớp học không tường ngăn góp phần phát triển tư duy sáng tạo, kỹ năng giao tiếp và tinh thần hợp tác của học sinh.
+            Đồng thời, mô hình này còn giúp các em hình thành ý thức bảo vệ thiên nhiên, trân trọng môi trường sống và xây dựng
+            lối sống xanh ngay từ khi còn ngồi trên ghế nhà trường.</p>
+        `
+        },
+        {
+        id: 4,
+        title: "Chiến Dịch: Giờ Trái Đất",
+        img: "https://images.unsplash.com/photo-1473341304170-971dccb5ac1e?auto=format&fit=crop&w=600&q=60",
+        short: "Cắt giảm 10% điện năng tiêu thụ toàn trường.",
+        date: "25/10/2023",
+        views: 740, likes: 230, dislikes: 0,
+        full: `
+        <p>Chiến dịch Giờ Trái Đất là hoạt động ý nghĩa nhằm nâng cao nhận thức của học sinh và cộng đồng về việc tiết kiệm năng
+            lượng, giảm phát thải khí nhà kính và bảo vệ môi trường sống. Thông qua chiến dịch, nhà trường kêu gọi mọi người
+            cùng chung tay hành động vì một Trái Đất xanh, sạch và bền vững.</p>
+        <p>Trong khuôn khổ chiến dịch, học sinh và giáo viên hưởng ứng bằng việc tắt các thiết bị điện không cần thiết trong
+            vòng 60 phút, đồng thời tham gia các hoạt động tuyên truyền như treo poster, chia sẻ thông điệp tiết kiệm điện và sử
+            dụng năng lượng hiệu quả. Những hành động nhỏ nhưng thiết thực này góp phần lan tỏa ý thức bảo vệ môi trường đến
+            từng cá nhân.</p>
+        <p>Chiến dịch Giờ Trái Đất không chỉ giúp học sinh hiểu rõ hơn về trách nhiệm của mình đối với môi trường mà còn hình
+            thành thói quen sống xanh, tiết kiệm năng lượng trong sinh hoạt hằng ngày. Qua đó, chương trình góp phần xây dựng
+            lối sống thân thiện với môi trường và chung tay bảo vệ hành tinh cho các thế hệ mai sau.</p>
+        `
+        },
+        {
+        id: 5,
+        title: "Vườn Rau Hữu Cơ",
+        img: "https://img.freepik.com/premium-photo/growing-vegetables-environmentally-friendly-sustainable-school-with-multiethnic-children_717906-104311.jpg",
+        short: "Học sinh tự tay cải tạo đất và thu hoạch rau sạch.",
+        date: "30/10/2023",
+        views: 2100, likes: 950, dislikes: 3,
+        full: `
+        <p>Vườn rau hữu cơ là hoạt động giáo dục trải nghiệm giúp học sinh hiểu rõ hơn về quy trình trồng trọt an toàn, thân
+            thiện với môi trường và gắn kết với thiên nhiên ngay trong khuôn viên nhà trường.</p>
+        <p>Thông qua việc trực tiếp gieo hạt, chăm sóc và thu hoạch rau, học sinh được rèn luyện tính kiên nhẫn, tinh thần trách
+            nhiệm và kỹ năng làm việc nhóm. Các em đồng thời học cách sử dụng phân bón hữu cơ, hạn chế hóa chất nhằm bảo vệ đất,
+            nước và hệ sinh thái.</p>
+        <p>Vườn rau hữu cơ không chỉ cung cấp nguồn thực phẩm sạch phục vụ bữa ăn học đường mà còn góp phần hình thành thói quen
+            sống xanh, nâng cao ý thức bảo vệ môi trường và hướng tới lối sống bền vững cho học sinh.</p>
+        `
+        }
+        ];
+
+        // Khởi tạo dữ liệu từ LocalStorage hoặc dùng Mặc định
+        let activitiesData = JSON.parse(localStorage.getItem('greenSchoolData'));
+        
+        if (!activitiesData) {
+        activitiesData = defaultActivities;
+        localStorage.setItem('greenSchoolData', JSON.stringify(defaultActivities));
+        }
+        let totalRegistrants = parseInt(localStorage.getItem('greenSchoolRegCount')) || 128; // Số đăng ký mặc định
+        
+        // Lưu trạng thái vote của người dùng hiện tại (để biết đã like hay chưa)
+        // Format: { 1: 'like', 2: 'dislike', ... }
+        let userVotes = JSON.parse(localStorage.getItem('greenSchoolUserVotes')) || {};
+
+        // Hàm lưu dữ liệu
+        function saveData() {
+            localStorage.setItem('greenSchoolData', JSON.stringify(activitiesData));
+            localStorage.setItem('greenSchoolRegCount', totalRegistrants);
+            localStorage.setItem('greenSchoolUserVotes', JSON.stringify(userVotes));
+        }
+
+        // ----------------------------------------------------
+        // 2. RENDER GIAO DIỆN
+        // ----------------------------------------------------
+        function renderGrid() {
+            const gridContainer = document.getElementById('activitiesGrid');
+            gridContainer.innerHTML = '';
+            activitiesData.forEach(item => {
+                // Kiểm tra trạng thái vote của user đối với bài viết này
+                const voteStatus = userVotes[item.id]; // 'like', 'dislike' hoặc undefined
+                const likeClass = voteStatus === 'like' ? 'active-like' : '';
+                const dislikeClass = voteStatus === 'dislike' ? 'active-dislike' : '';
+                
+                // Chọn icon (đặc nếu đã like, rỗng nếu chưa)
+                const likeIcon = voteStatus === 'like' ? 'fas fa-thumbs-up' : 'far fa-thumbs-up';
+                const dislikeIcon = voteStatus === 'dislike' ? 'fas fa-thumbs-down' : 'far fa-thumbs-down';
+
+                const html = `
+                    <article class="card">
+                        <img src="${item.img}" alt="${item.title}">
+                        <div class="card-body">
+                            <h3 class="card-title">${item.title}</h3>
+                            <p class="card-desc">${item.short}</p>
+                            <button class="btn" style="padding: 8px 20px; font-size: 0.8rem;" onclick="openModal(${item.id})">Đọc Chi Tiết</button>
+                        </div>
+                        <div class="card-footer">
+                            <div class="view-count"><i class="fas fa-eye"></i> <span id="view-${item.id}">${item.views}</span></div>
+                            <div class="interaction-group">
+                                <span class="interact-btn ${likeClass}" onclick="handleVote(${item.id}, 'like')">
+                                    <i class="${likeIcon}"></i> ${item.likes}
+                                </span>
+                                <span class="interact-btn ${dislikeClass}" onclick="handleVote(${item.id}, 'dislike')">
+                                    <i class="${dislikeIcon}"></i> ${item.dislikes}
+                                </span>
+                            </div>
+                        </div>
+                    </article>
+                `;
+                gridContainer.innerHTML += html;
+            });
+        }
+
+        // Cập nhật số người đăng ký lên giao diện
+        document.getElementById('registrantCount').innerText = totalRegistrants;
+        renderGrid();
+
+        // ----------------------------------------------------
+        // 3. XỬ LÝ LOGIC VOTE (LIKE/DISLIKE)
+        // ----------------------------------------------------
+        function handleVote(id, type) { // type là 'like' hoặc 'dislike'
+            const item = activitiesData.find(x => x.id === id);
+            const currentVote = userVotes[id]; // Trạng thái hiện tại của user
+
+            if (currentVote === type) {
+                // TRƯỜNG HỢP 1: Đã vote cái này rồi -> Bấm lại để HỦY VOTE (Unvote)
+                item[type + 's']--; // Giảm số lượng (likes hoặc dislikes)
+                delete userVotes[id]; // Xóa trạng thái user
+            } else {
+                // TRƯỜNG HỢP 2: Chưa vote hoặc vote cái khác
+                
+                // Nếu đã vote cái kia rồi thì phải hủy cái kia trước
+                if (currentVote) {
+                    item[currentVote + 's']--; // Giảm cái cũ (VD: đang like thì giảm like)
+                }
+
+                // Tăng cái mới
+                item[type + 's']++;
+                userVotes[id] = type; // Lưu trạng thái mới
+            }
+
+            saveData(); // Lưu vào LocalStorage
+            renderGrid(); // Render lại để cập nhật màu sắc và số lượng
+        }
+
+        // ----------------------------------------------------
+        // 4. XỬ LÝ MODAL & TĂNG VIEW
+        // ----------------------------------------------------
+        const modal = document.getElementById('activityModal');
+        
+        function openModal(id) {
+        const item = activitiesData.find(x => x.id === id);
+        if (!item) return;
+        
+        // Tăng view +1 và lưu lại
+        item.views++;
+        saveData();
+        document.getElementById(`view-${id}`).innerText = item.views; // Cập nhật số view bên ngoài
+        
+        document.getElementById('modalImg').src = item.img;
+        document.getElementById('modalTitle').innerText = item.title;
+        document.getElementById('modalDate').innerText = item.date;
+        document.getElementById('modalViews').innerText = item.views;
+        document.getElementById('modalDesc').innerHTML = item.full;
+        
+        modal.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        }
+        
+        function closeModal(e) { if (e.target === modal) closeModalDirect(); }
+        function closeModalDirect() {
+        modal.classList.remove('open');
+        document.body.style.overflow = 'auto';
+        }
+        
+        // ----------------------------------------------------
+        // 5. SEARCH & FORM & SCROLL TOP
+        // ----------------------------------------------------
+        const searchInput = document.getElementById('searchInput');
+        const suggestionsBox = document.getElementById('searchSuggestions');
+        searchInput.addEventListener('focus', () => { renderSuggestions(activitiesData); suggestionsBox.classList.add('active');
+        });
+        searchInput.addEventListener('input', (e) => {
+        const keyword = e.target.value.toLowerCase();
+        renderSuggestions(activitiesData.filter(item => item.title.toLowerCase().includes(keyword)));
+        });
+        document.addEventListener('click', (e) => { if (!e.target.closest('.search-wrapper'))
+        suggestionsBox.classList.remove('active'); });
+        
+        function renderSuggestions(list) {
+        if (list.length === 0) { suggestionsBox.innerHTML = '<div style="padding:10px; color:#999">Không tìm thấy</div>';
+        return; }
+        let html = '';
+        list.forEach(item => {
+        html += `<div class="suggestion-item" onclick="selectSuggestion(${item.id})"><img src="${item.img}">
+            <div><b>${item.title}</b><br><small>${item.views} views</small></div>
+        </div>`;
+        });
+        suggestionsBox.innerHTML = html;
+        }
+        function selectSuggestion(id) { openModal(id); suggestionsBox.classList.remove('active'); searchInput.value = ''; }
+        
+        function submitForm(e) {
+        e.preventDefault();
+        document.getElementById('contactForm').style.display = 'none';
+        document.getElementById('successMsg').style.display = 'block';
+        
+        // Tăng số lượng và lưu vào LocalStorage
+        totalRegistrants++;
+        saveData();
+        
+        // Hiệu ứng tăng số
+        const counterEl = document.getElementById('registrantCount');
+        counterEl.style.color = '#e74c3c';
+        counterEl.innerText = totalRegistrants;
+        setTimeout(() => { counterEl.style.color = 'var(--text-dark)'; }, 300);
+        }
+        
+        const scrollBtn = document.getElementById("scrollTopBtn");
+        window.onscroll = function() { scrollBtn.style.display = (document.body.scrollTop > 300 ||
+        document.documentElement.scrollTop > 300) ? "flex" : "none"; };
+        function scrollToTop() { document.documentElement.scrollTop = 0; }
+        </script>
+        </body>
+        
+        </html>
