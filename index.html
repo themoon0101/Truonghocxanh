@@ -629,38 +629,61 @@
 
         /* Mobile */
         @media (max-width: 768px) {
-        .navbar {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-        padding: 10px 15px;
-        gap: 10px;
-        }
-        
-        .nav-links {
-        display: flex;
-        flex-direction: row;
+
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 12px 15px;
         gap: 12px;
-        white-space: nowrap;
-        }
-        
-        .nav-links a {
-        font-size: 14px;
-        padding: 6px 8px;
-        }
-        
-        .search-wrapper {
-        display: flex;
-        align-items: center;
-        }
-        
-        .search-wrapper input {
-        width: 120px;
-        font-size: 13px;
-        padding: 5px 8px;
-        }
-        }
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+
+    .nav-links a {
+        font-size: 15px;
+        padding: 6px 0;
+    }
+
+    .search-wrapper {
+        width: 100%;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+
+    .stats-bar {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .intro-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contact-container {
+        flex-direction: column;
+    }
+
+    .contact-info,
+    .contact-form-box {
+        width: 100%;
+    }
+
+    .intro-sub-img,
+    .bg-decoration {
+        display: none;
+    }
+}
 
             .stats-bar {
                 flex-direction: column;
@@ -1120,3 +1143,4 @@
 </body>
 
 </html>
+
