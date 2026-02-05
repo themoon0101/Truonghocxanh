@@ -711,10 +711,54 @@
             .bg-decoration {
             display: none;
             }
+        /* HAMBURGER MENU */
+.menu-toggle {
+    display: none;
+    font-size: 26px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #2e7d32;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+
+    .menu-toggle {
+        display: block;
+        margin-left: auto;
+    }
+
+    .nav-links,
+    .search-wrapper {
+        display: none;
+        width: 100%;
+    }
+
+    .nav-links.active,
+    .search-wrapper.active {
+        display: flex;
+    }
+
+    .nav-links {
+        flex-direction: column;
+        gap: 10px;
+        margin-top: 10px;
+    }
+
+    .search-wrapper {
+        margin-top: 10px;
+    }
+}
         }
     </style>
 </head>
-
+<script>
+function toggleMenu() {
+    document.querySelector('.nav-links').classList.toggle('active');
+    document.querySelector('.search-wrapper').classList.toggle('active');
+}
+</script>
 <body>
 
     <img src="https://www.freeiconspng.com/thumbs/leaves-png/green-leaves-png-7.png" class="bg-decoration leaf-top-left" alt="">
@@ -727,6 +771,7 @@
     <header>
         <div class="container navbar">
             <a href="#" class="logo"><i class="fas fa-leaf"></i> TRƯỜNG HỌC XANH</a>
+            <button class="menu-toggle" onclick="toggleMenu()">☰</button>
             <nav class="nav-links">
                 <a href="#">Trang chủ</a>
                 <a href="#about">Ý nghĩa</a>
@@ -1143,4 +1188,5 @@
 </body>
 
 </html>
+
 
