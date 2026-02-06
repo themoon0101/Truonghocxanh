@@ -760,52 +760,7 @@
         margin-top: 10px;
     }
 }
-/* Desktop */
-@media (min-width: 769px) {
-    .navbar {
-        flex-direction: row;
-        align-items: center;
-        height: 80px;
-    }
-
-    .nav-top {
-        width: auto;
-    }
-
-    .nav-links {
-        display: flex !important;
-        flex-direction: row !important;
-        gap: 30px;
-    }
-
-    .search-wrapper {
-        display: block !important;
-        width: 280px;
-    }
-
-    .menu-toggle {
-        display: none;
-    }
-}
-
-/* Mobile */
-@media (max-width: 768px) {
-    .navbar {
-        flex-direction: column;
-        align-items: stretch;
-    }
-
-    .nav-links,
-    .search-wrapper {
-        display: none;
-    }
-
-    .nav-links.active,
-    .search-wrapper.active {
-        display: flex;
-        flex-direction: column;
-    }
-}    
+  
     </style>
 </head>
 <script>
@@ -1253,6 +1208,7 @@ function toggleMenu() {
 </body>
 
 </html>
+
 
 
 
